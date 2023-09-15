@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Simulator</title>
+    <link rel=stylesheet href="/lib/bootstrap/bootstrap.min.css">
+    <script src="lib/bootstrap/bootstrap.bundle.min.js" defer></script>
+    </head>
+    <body>
+        <div class="bg-body-tertiary rounded-3 p-5 m-5">
+            <div class="container-fluid">
+                <div class="text-center">
+                    <h1>ATM Simulator</h1>
+                    <p>
+                        This website stimulates an an atm machine
+                        Type your account PIN to get started
+                    </p>
+                </div>
+                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
+                    <strong>Oops! Sorry</strong> You entered an invalid pin. Try again
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <div class="input-group mt-1">
+                    <input type="text" class="form-control" placeholder="Enter you PIN number" aria-label="Recipient's username with two button addons">
+                    <button class="btn btn-success" type="button">Confirm</button>
+                    <button class="btn btn-success" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status">Verifying...</span>
+                    </button>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-10">
+                        What transaction do you want to perform
+                    </div>
+                    <div class="col-2">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected></option>
+                            <option value="1">Check Balance</option>
+                            <option value="2">Withdrawal</option>
+                            <option value="3">Deposit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+  
+</html>
