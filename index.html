@@ -19,29 +19,62 @@
                         Type your account PIN to get started
                     </p>
                 </div>
-                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
-                    <strong>Oops! Sorry</strong> You entered an invalid pin. Try again
+                <!--Error Alert-->
+                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert" id="errorAlert">
+                    <strong>Oops! Sorry</strong><span id="errorMessage"> You entered an invalid pin. Try again</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                <div class="input-group mt-1">
-                    <input type="text" class="form-control" placeholder="Enter you PIN number" aria-label="Recipient's username with two button addons">
+                </div>
+                <!--Success Alert-->
+                <div class="alert alert-success alert-dismissible fade show mt-1" role="alert" id="successAlert">
+                    <span id="successMessage">Your transaction is successful</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <!--Input section-->
+                <div class="input-group mt-1" id="inputSections">
+                    <input type="text" class="form-control" placeholder="Enter you PIN number" aria-label="Recipient's username with two button addons" id="textInput">
                     <button class="btn btn-success" type="button">Confirm</button>
                     <button class="btn btn-success" type="button" disabled>
                         <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        <span role="status">Verifying...</span>
+                        <span role="status" id="statusButton">Verifying...</span>
                     </button>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-10">
-                        What transaction do you want to perform
+                <!--Home screen blog-->
+                <div class="mt-2">
+                    <h3 class="text-center">Hello <span id="fullName">name</span></h3>
+                    <div class="row">
+                        <div class="col-8 fs-4">
+                            What transaction do you want to perform today?
+                        </div>
+                        <div class="col-2">
+                            <select class="form-select" id="transactionType">
+                                <option selected value="checkBalance">Check Balance</option>
+                                <option value="withdrawal">Withdrawal</option>
+                                <option value="deposit">Deposit</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-success" type="button" id="confirmTransaction">Confirm</button>
+                        </div>
                     </div>
-                    <div class="col-2">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected></option>
-                            <option value="1">Check Balance</option>
-                            <option value="2">Withdrawal</option>
-                            <option value="3">Deposit</option>
-                        </select>
+                </div>
+                <!--Check Balance Block-->
+                <div class="mt-2 text-center" id="checkBalanceBlock">
+                    <p class="fs-4">Your remaining balance is <span class="fw-bold" id="accountBalance"></span></p>
+                </div>
+                <!--Withdrawal Block-->
+                <div class="mt-2">
+                    
+                </div>
+                <!--Deposit Block-->
+                <div class="mt-2">
+
+                </div>
+                <div class="row">
+                    <div class="d-grid col-6">
+                        <button class="btn btn-primary" type="button" id="performAnotherTransaction">Perform Another Transaction</button>
+                    </div>
+                    <div class="d-grid col-6">
+                        <button class="btn btn-danger" type="button" id="exit">Exit</button>
                     </div>
                 </div>
             </div>
