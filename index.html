@@ -8,6 +8,7 @@
     <title>ATM Simulator</title>
     <link rel=stylesheet href="/lib/bootstrap/bootstrap.min.css">
     <script src="lib/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script src="index.js" defer></script>
     </head>
     <body>
         <div class="bg-body-tertiary rounded-3 p-5 m-5">
@@ -21,7 +22,7 @@
                 </div>
                 <!--Error Alert-->
                 <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert" id="errorAlert">
-                    <strong>Oops! Sorry</strong><span id="errorMessage"> You entered an invalid pin. Try again</span>
+                    <strong>Oops! Sorry </strong><span id="errorMessage"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <!--Success Alert-->
@@ -30,16 +31,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <!--Input section-->
-                <div class="input-group mt-1" id="inputSections">
+                <div class="input-group mt-1" id="inputSection">
                     <input type="text" class="form-control" placeholder="Enter you PIN number" aria-label="Recipient's username with two button addons" id="textInput">
-                    <button class="btn btn-success" type="button">Confirm</button>
-                    <button class="btn btn-success" type="button" disabled>
+                    <button class="btn btn-success" type="button" id="confirmButton">Confirm</button>
+                    <button class="btn btn-success" type="button" disabled id="spinner">
                         <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         <span role="status" id="statusButton">Verifying...</span>
                     </button>
                 </div>
                 <!--Home screen blog-->
-                <div class="mt-2">
+                <div class="mt-2" id="homeScreen">
                     <h3 class="text-center">Hello <span id="fullName">name</span></h3>
                     <div class="row">
                         <div class="col-8 fs-4">
@@ -69,7 +70,7 @@
                 <div class="mt-2">
 
                 </div>
-                <div class="row">
+                <div class="row" id="actionButtons">
                     <div class="d-grid col-6">
                         <button class="btn btn-primary" type="button" id="performAnotherTransaction">Perform Another Transaction</button>
                     </div>
