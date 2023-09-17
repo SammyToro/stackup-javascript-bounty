@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Simulator</title>
+    <link rel=stylesheet href="/lib/bootstrap/bootstrap.min.css">
+    <script src="lib/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script src="index.js" defer></script>
+    </head>
+    <body>
+        <div class="bg-body-tertiary rounded-3 p-5 m-5">
+            <div class="container-fluid">
+                <div class="text-center">
+                    <h1>ATM Simulator</h1>
+                    <p>
+                        This website stimulates an an atm machine
+                        Type your account PIN to get started
+                    </p>
+                </div>
+                <!--Error Alert-->
+                <div class="alert alert-danger alert-dismissible mt-1" role="alert" id="errorAlert">
+                    <strong>Oops! Sorry </strong><span id="errorMessage"></span>
+                    <button type="button" class="btn-close" aria-label="Close" id="errorAlertCloseButton"></button>
+                </div>
+                <!--Success Alert-->
+                <div class="alert alert-success alert-dismissible mt-1" role="alert" id="successAlert">
+                    <span id="successMessage">Your transaction is successful</span>
+                    <button type="button" class="btn-close" aria-label="Close" id="successAlertCloseButton"></button>
+                </div>
+                <!--Input section-->
+                <div class="input-group mt-1" id="inputSection">
+                    <input type="text" class="form-control" placeholder="Enter you PIN number" aria-label="Recipient's username with two button addons" id="textInput">
+                    <button class="btn btn-success" type="button" id="confirmButton">Confirm</button>
+                    <button class="btn btn-success" type="button" disabled id="spinner">
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status" id="statusButton">Verifying...</span>
+                    </button>
+                </div>
+                <!--Home screen blog-->
+                <div class="mt-2" id="homeScreen">
+                    <h3 class="text-center">Hello <span id="fullName">name</span></h3>
+                    <div class="row">
+                        <div class="col-8 fs-4">
+                            What transaction do you want to perform today?
+                        </div>
+                        <div class="col-2">
+                            <select class="form-select" id="transactionType">
+                                <option selected value="checkBalance">Check Balance</option>
+                                <option value="withdrawal">Withdrawal</option>
+                                <option value="deposit">Deposit</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-success" type="button" id="confirmTransaction">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Check Balance Block-->
+                <div class="mt-2 text-center" id="checkBalanceBlock">
+                    <p class="fs-4">Your remaining balance is <span class="fw-bold" id="accountBalance"></span></p>
+                </div>
+                <!--Withdrawal Block-->
+                <div class="mt-2">
+                    
+                </div>
+                <!--Deposit Block-->
+                <div class="mt-2">
+
+                </div>
+                <div class="row" id="actionButtons">
+                    <div class="d-grid col-6">
+                        <button class="btn btn-primary" type="button" id="performAnotherTransaction">Perform Another Transaction</button>
+                    </div>
+                    <div class="d-grid col-6">
+                        <button class="btn btn-danger" type="button" id="exit">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+  
+</html>
