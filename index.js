@@ -7,7 +7,7 @@ class Account{
     }
 
     deposit(amount){
-        this.balance += amount;
+        this.balance = +this.balance + +amount //Added + in front of values to prevent concatenation
     }
 
     withdraw(amount){
@@ -16,7 +16,7 @@ class Account{
  }
 
  /**ATM Machine Class */
- class AtmSimulator{
+ class AtmMachine{
 
     constructor(availableAmount){
         let account1 = new Account("John Doe","1234","50000");
@@ -33,6 +33,14 @@ class Account{
         return this.accounts.filter(account => account.pin === pinNumber )
     }
 
+    withdraw(amount){
+        this.availableAmount -= amount;
+    }
+
+    deposit(amount){
+        this.availableAmount  = +this.availableAmount + +amount; //Added + in front of values to prevent concatenation
+    }
+
 }
 
 /**Program Flow */
@@ -46,7 +54,14 @@ window.onload = function(){
     hideElement('spinner');
 };
 
-//Hnadle user login with pin
+//Global variables;
+let userAccount = null;
+let transaction = null;
+let login  = false;
+
+myATM = new AtmMachine(100000);
+
+//Handle user login with pin
 document.getElementById('confirmButton').addEventListener('click',function(){
     let input = document.getElementById('textInput').value;
     let validatedInput = validateInput(input);
@@ -56,30 +71,138 @@ document.getElementById('confirmButton').addEventListener('click',function(){
             hideElement('spinner');
             showElement('errorAlert');
             showElement('confirmButton');
-        }else{//Valid input
-             myATM = new AtmSimulator(100000);
-             let account = myATM.verifyPin(input);
-             console.log(account);
-             if(account.length === 0){
-                document.getElementById('errorMessage').innerHTML = "You entered a wrong pin try again";
-                hideElement('spinner');
-                showElement('confirmButton');
-                showElement('errorAlert');
-             }else{
-                document.getElementById('successMessage').innerHTML = "Login successful";
-                hideElement('errorAlert')
-                showElement('successAlert');
-                hideElement('spinner');
-                showElement('confirmButton');
-                hideElement('inputSection');
+            document.getElementById('textInput').value = '';
 
-                let userAccount = account[0];
-                document.getElementById('fullName').innerHTML = userAccount.name;
-                showElement('homeScreen');
-             }
+        }else{//Valid input
+            if(login == false){//Handle login
+                let account = myATM.verifyPin(validatedInput);
+                if(account.length === 0){
+                    document.getElementById('errorMessage').innerHTML = "You entered a wrong pin try again";
+                    hideElement('spinner');
+                    showElement('confirmButton');
+                    showElement('errorAlert');
+                    document.getElementById('textInput').value = '';
+                }else{
+                    document.getElementById('successMessage').innerHTML = "Login successful";
+                    hideElement('errorAlert')
+                    showElement('successAlert');
+                    hideElement('spinner');
+                    showElement('confirmButton');
+                    hideElement('inputSection');
+
+                    userAccount = account[0];
+                    document.getElementById('fullName').innerHTML = userAccount.name;
+                    showElement('homeScreen');
+                    login = true
+                }
+            }else{
+                console.log(transaction);
+                if(transaction == 'withdrawal'){
+                    try{
+                        if(validatedInput > userAccount.balance)
+                            throw new Error('Your balance is insufficient to perform the transaction');
+                        else if(validatedInput > myATM.availableAmount)
+                            throw new Error('System Error. ATM funds is low. Contact support');
+                        else{
+                            userAccount.withdraw(validatedInput);
+                            myATM.withdraw(validatedInput);
+                            document.getElementById('successMessage').innerHTML = '<strong> Transaction successful </strong>.You account has been debited with GHC '+validatedInput;
+                            document.getElementById('accountBalance').innerHTML = 'GHC ' + userAccount.balance;
+                            document.getElementById('textInput').placeholder = 'Enter your PIN number';
+                            document.getElementById('statusButton').innerHTML = 'Verifying...';
+                            hideElement('spinner');
+                            showElement('confirmButton');
+                            hideElement('inputSection');
+                            showElement('successAlert');
+                            showElement('checkBalanceBlock');
+                            showElement('actionButtons');
+                        }
+                    }catch(error){
+                        document.getElementById('errorMessage').innerHTML = error;
+                        document.getElementById('textInput').value = '';
+                        showElement('errorAlert');
+                        hideElement('spinner');
+                        showElement('confirmButton');
+                        hideElement('inputSection');
+                        showElement('homeScreen');
+
+                    }
+                }else if(transaction == 'deposit'){
+                    userAccount.deposit(validatedInput);
+                    myATM.deposit(validatedInput);
+                    document.getElementById('successMessage').innerHTML = '<strong> Transaction successful </strong>.You account has been credited with GHC '+validatedInput;
+                    document.getElementById('accountBalance').innerHTML = 'GHC ' + userAccount.balance;
+                    document.getElementById('textInput').placeholder = 'Enter your PIN number';
+                    document.getElementById('statusButton').innerHTML = 'Verifying...';
+                    hideElement('spinner');
+                    showElement('confirmButton');
+                    hideElement('inputSection');
+                    showElement('successAlert');
+                    showElement('checkBalanceBlock');
+                    showElement('actionButtons');
+                }
+            }
+             
         }
     },2000);
 });
+
+document.getElementById('confirmTransaction').addEventListener('click',function(){
+    let transactionType = document.getElementById('transactionType').value;
+    switch(transactionType){
+        case 'checkBalance':
+            hideElement('homeScreen');
+            document.getElementById('successMessage').innerHTML = 'Transaction Successful'
+            document.getElementById('accountBalance').innerHTML = 'GHC ' + userAccount.balance;
+            showElement('checkBalanceBlock');
+            showElement('actionButtons');   
+        break;
+        case 'withdrawal':
+            hideElement('homeScreen');
+            document.getElementById('textInput').value = '';
+            document.getElementById('textInput').placeholder = 'Enter Amount';
+            document.getElementById('statusButton').innerHTML = 'Processing...';
+            showElement('inputSection');
+            transaction = 'withdrawal';
+        break;
+        case 'deposit':
+            hideElement('homeScreen');
+            document.getElementById('textInput').value = '';
+            document.getElementById('textInput').placeholder = 'Enter Amount';
+            document.getElementById('statusButton').innerHTML = 'Processing...';
+            showElement('inputSection');
+            transaction = 'deposit';
+        break;
+        default:
+            showElement('inputSection');
+    }
+});
+
+document.getElementById('performAnotherTransaction').addEventListener('click', function(){
+    hideElement('actionButtons');
+    hideElement('successAlert');
+    hideElement('checkBalanceBlock');
+    showElement('homeScreen');
+});
+
+document.getElementById('exit').addEventListener('click', function(){
+    hideElement('actionButtons');
+    hideElement('successAlert');
+    hideElement('checkBalanceBlock');
+    showElement('inputSection');
+    document.getElementById('textInput').value = '';
+    login = false;
+    userAccount = null;
+});
+
+/**Use this fix for the alert dismiss as bootstraps alert removes element from page causing null error */
+document.getElementById('errorAlertCloseButton').addEventListener('click', function(){
+    hideElement('errorAlert');
+})
+
+document.getElementById('successAlertCloseButton').addEventListener('click', function(){
+    hideElement('successAlert');
+})
 
 /**Helper Functions */
 function hideElement(elementId){
